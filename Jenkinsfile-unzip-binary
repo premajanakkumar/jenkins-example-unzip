@@ -6,11 +6,18 @@ pipeline {
         sh 'unzip --help'
       }
     }
-    stage('unzip') {
-      steps {
-        sh 'unzip hello.zip'
-      }
+   stage('unzip') {
+    steps {
+        sh '''
+        if [ -f hello.txt ]; then
+            echo "hello.txt exists, removing it..."
+            rm hello.txt
+        fi
+        unzip hello.zip
+        '''
     }
+}
+
     stage('cat the file') {
       steps {
         sh 'cat hello.txt'
